@@ -1,0 +1,4 @@
+file:core:modules\core
+file:spring-context:bin\lib
+file:commonexceptions:modules\commonexceptions
+file:commonbaseutils:bin\lib

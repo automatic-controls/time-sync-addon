@@ -1,0 +1,106 @@
+<!--
+  BSD 3-Clause License
+  Copyright (c) 2022, Automatic Controls Equipment Systems, Inc.
+  Contributors: Cameron Vogt (@cvogt729)
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      TimeSync Schedule Configuration
+    </title>
+    <link rel="stylesheet" type="text/css" href="main.css"/>
+    <script>
+      function registerChange(){
+        if (!changes){
+          changes = true;
+          mainTitle.innerText = "* TimeSync Schedule Configuration *";
+          document.title = mainTitle.innerText;
+        }
+      }
+      function unregisterChange(){
+        if (changes){
+          changes = false;
+          mainTitle.innerText = "TimeSync Schedule Configuration";
+          document.title = mainTitle.innerText;
+        }
+      }
+      function checkSave(){
+        if (changes){
+          alert("Please save changes before continuing.");
+          return false;
+        }else{
+          return true;
+        }
+      }
+      function resize(input){
+        const styles = window.getComputedStyle(input);
+        hiddenSpan.style.fontFamily = styles.fontFamily;
+        hiddenSpan.style.fontSize = styles.fontSize;
+        hiddenSpan.style.fontStyle = styles.fontStyle;
+        hiddenSpan.style.fontWeight = styles.fontWeight;
+        hiddenSpan.style.letterSpacing = styles.letterSpacing;
+        hiddenSpan.style.textTransform = styles.textTransform;
+        hiddenSpan.style.borderLeftWidth = styles.borderLeftWidth;
+        hiddenSpan.style.borderRightWidth = styles.borderRightWidth;
+        hiddenSpan.style.paddingLeft = styles.paddingLeft;
+        hiddenSpan.style.paddingRight = styles.paddingRight;
+        hiddenSpan.innerText = input.value;
+        input.style.width = hiddenSpan.offsetWidth+"px";
+      }
+    </script>
+  </head>
+  <body>
+    <div style="text-align:center">
+      <h1 id="mainTitle">TimeSync Schedule Configuration</h1>
+      <br>
+      <div class="divGrouping">
+        <label for="cronField"><a target="_blank" href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/support/CronExpression.html#parse-java.lang.String-">Cron Expression:</a></label>
+        <input class="c" type="text" id="cronField" oninput="resize(this);registerChange()">
+      </div>
+      <br><br>
+      <span class="c" id="nextSync"></span>
+      <br><br><br>
+      <button type="submit" class="e" id="saveButton">Save Changes</button>
+      <button type="button" class="e" id="discardButton" onclick="prompt=false;window.location.reload()">Discard Changes</button>
+      <br><br>
+      <p>
+        Schedule granularity is 5 minutes. This means the smallest allowed time interval between scheduled runs is 5 minutes. It also means that scheduled runs may occur within &plusmn;5 minutes of the designated time. Refer to documentation at <a href="https://github.com/automatic-controls/time-sync-addon">GitHub</a>.
+      </p>
+      <span id="hiddenSpan" style="min-width:6em;color:black;display:inline-block;position:absolute;left:-100000px;white-space:pre"></span>
+    </div>
+    <script>
+      var changes = false;
+      var prompt = true;
+      cronField.value = "__CRON_EXPR__";
+      nextSync.innerText = "__NEXT_SYNC__";
+      resize(cronField);
+      window.onbeforeunload = ()=>{
+        if (prompt && changes){
+          return "Changes remain unsaved. Are you sure you want to leave?";
+        }
+      };
+      saveButton.onclick = ()=>{
+        cronField.disabled = true;
+        saveButton.disabled = true;
+        const req = new XMLHttpRequest();
+        req.open("POST","__PREFIX__/Config");
+        req.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+        req.onreadystatechange = function(){
+          if (this.readyState===4){
+            if (this.status===200){
+              unregisterChange();
+              nextSync.innerText = this.responseText;
+            }else{
+              alert("An error has occurred.");
+            }
+            saveButton.disabled = false;
+            cronField.disabled = false;
+          }
+        };
+        req.send("expr="+encodeURIComponent(cronField.value))
+        return true;
+      };
+    </script>
+  </body>
+</html>
