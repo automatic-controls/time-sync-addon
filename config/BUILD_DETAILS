@@ -1,22 +1,22 @@
 JDK Version:
-openjdk 18.0.2.1 2022-08-18
-OpenJDK Runtime Environment (build 18.0.2.1+1-1)
-OpenJDK 64-Bit Server VM (build 18.0.2.1+1-1, mixed mode, sharing)
+openjdk 21.0.2 2024-01-16
+OpenJDK Runtime Environment (build 21.0.2+13-58)
+OpenJDK 64-Bit Server VM (build 21.0.2+13-58, mixed mode, sharing)
 
 Compilation Flags:
---release 8
+--release 11
 
 Runtime Dependencies:
-addonsupport-api-addon-1.7.0
-alarmmanager-api-addon-1.7.0
-bacnet-api-addon-1.8.007-20220318.0837r
-directaccess-api-addon-1.7.0
-tomcat-embed-core-9.0.37
-webaccess-api-addon-1.7.0
-xdatabase-api-addon-1.7.0
-commonbaseutils-1.0.6
-commonexceptions-8.0.002
-core-8.0.002
-spring-context-5.2.8.RELEASE
+addonsupport-api-addon-1.10.0
+alarmmanager-api-addon-1.10.0
+bacnet-api-core-1.10.007-20240227.1003r
+directaccess-api-addon-1.10.0
+tomcat-embed-core-9.0.87
+webaccess-api-addon-1.10.0
+xdatabase-api-addon-1.10.0
+commonbaseutils-2.0.5
+commonexceptions-9.0.002
+core-9.0.002
+spring-context-5.3.33
 
 Packaged Dependencies:

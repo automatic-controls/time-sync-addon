@@ -31,13 +31,6 @@ public class Initializer implements ServletContextListener {
   private volatile static CronSequenceGenerator cron = null;
   private volatile static long nextRunTime = -1L;
   private final static AtomicBoolean running = new AtomicBoolean(false);
-  // Temporary workaround until ALC releases a patch for WebCTRL
-  static {
-    try{
-      Class.forName("com.controlj.green.directaccess.DirectAccessInternal").getMethod("getDirectAccessInternal").invoke(null);
-      com.controlj.green.addonsupport.access.DirectAccess.getDirectAccess();
-    }catch (Throwable t){}
-  }
   private synchronized static boolean save(){
     ByteBuffer buf = ByteBuffer.wrap((expr==null?"":expr).getBytes(StandardCharsets.UTF_8));
     try(
