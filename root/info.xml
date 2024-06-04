@@ -1,6 +1,6 @@
 <extension version="1">
   <name>TimeSync</name>
   <description>Synchronizes time across controllers at regularly scheduled intervals (configured with Cron expressions).</description>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <vendor>Automatic Controls Equipment Systems, Inc.</vendor>
 </extension>
